@@ -85,8 +85,13 @@ func Run(s *Supplier) error {
 
 func InstallOllama(s *Supplier) error {
     s.Log.BeginStep("Installing Ollama")
-    cmd := exec.Command("curl", "-fsSL", "https://ollama.com/install.sh", "|", "sh")
+    cmd := exec.Command("curl", "-fsSL", "https://ollama.com/install.sh", "-o", "ollama.sh")
     if err := cmd.Run(); err != nil {
+        s.Log.Error("failed to install Ollama: %w", err)
+		return err
+    }
+	cmd := exec.Command("sh", "ollama.sh")
+	if err := cmd.Run(); err != nil {
         s.Log.Error("failed to install Ollama: %w", err)
 		return err
     }
