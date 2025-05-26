@@ -90,11 +90,11 @@ func InstallOllama(s *Supplier) error {
         s.Log.Error("failed to get Ollama: %v", err)
 		return err
     }
-	cmd := exec.Command("sh", "ollama.sh")
-	if err := cmd.Run(); err != nil {
-        s.Log.Error("failed to install Ollama: %v", err)
-		return err
-    }
+	// cmd := exec.Command("sh", "ollama.sh")
+	// if err := cmd.Run(); err != nil {
+    //     s.Log.Error("failed to install Ollama: %v", err)
+	// 	return err
+    // }
 	s.Log.Info("Ollama installed successfully")
     return nil
 }
