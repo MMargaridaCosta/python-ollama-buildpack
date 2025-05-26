@@ -73,10 +73,28 @@ func Run(s *Supplier) error {
 		return err
 	} else if exists {
 		return conda.Run(conda.New(s.Installer, s.Stager, s.Command, s.Log))
+	} else if err := RunPython(s); err != nil {
+		s.Log.Error("Error running Python supplier: %v", err)
 	} else {
-		return RunPython(s)
+		return InstallOllama(s)
 	}
 }
+
+
+
+func InstallOllama(s *Supplier) error {
+    s.Log.BeginStep("Installing Ollama")
+    cmd := exec.Command("sh", "-c", "curl -fsSL https://ollama.com/install.sh | sh")
+    cmd.Dir = s.Stager.BuildDir()
+    if err := cmd.Run(); err != nil {
+        s.Log.Error("failed to install Ollama: %w", err)
+		return err
+    }
+	s.Log.Info("Ollama installed successfully")
+    return nil
+}
+
+// ...existing code...
 
 func RunPython(s *Supplier) error {
 	s.Log.BeginStep("Supplying Python")
