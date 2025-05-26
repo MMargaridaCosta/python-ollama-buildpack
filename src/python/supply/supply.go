@@ -75,6 +75,7 @@ func Run(s *Supplier) error {
 		return conda.Run(conda.New(s.Installer, s.Stager, s.Command, s.Log))
 	} else if err := RunPython(s); err != nil {
 		s.Log.Error("Error running Python supplier: %v", err)
+		return err
 	} else {
 		return InstallOllama(s)
 	}
